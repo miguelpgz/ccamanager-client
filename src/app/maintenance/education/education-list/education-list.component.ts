@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import { Application } from "../../models/Application";
+import { Education } from '../models/Education';
 // import {ApplicationService} from "../../services/application.service";
 // import { ApplicationNewComponent } from "../application-new/application-new.component";
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
@@ -7,6 +7,7 @@ import { SnackbarService } from "../../../core/services/snackbar.service";
 // import { ApplicationEditComponent } from "../application-edit/application-edit.component";
 // import { RoleClass } from '../../models/RoleClass';
 // import {ApplicationDeployComponent} from "../application-deploy/application-deploy.component";
+import { EducationService } from '../services/education.service';
 
 @Component({
   selector: 'app-education-list',
@@ -16,30 +17,30 @@ import { SnackbarService } from "../../../core/services/snackbar.service";
 })
 export class EducationListComponent implements OnInit {
 
-  listoOfData: [];
+  listoOfData: Education[];
   isLoading: boolean = false;
-  // item: Application;
+  item: Education;
 
   constructor(
-    // private applicationService: ApplicationService,
+    private educationService: EducationService,
     private ref: DynamicDialogRef,
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
   ) { }
 
   ngOnInit(): void {
-    // this.findAll();
+    this.findAll();
   }
 
   findAll(){
-    // this.isLoading = true;
-    // this.applicationService.findAll().subscribe({
-    //   next: (results) => {
-    //     this.listoOfData = results;
-    //   },
-    //   error: ()=>{},
-    //   complete: () => { this.isLoading = false; }
-    // });
+    this.isLoading = true;
+    this.educationService.findAll().subscribe({
+       next: (results) => {
+         this.listoOfData = results;
+       },
+       error: ()=>{},
+       complete: () => { this.isLoading = false; }
+     });
   }
 
   newItem(){

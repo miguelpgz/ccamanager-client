@@ -13,16 +13,12 @@
   <ng-template pTemplate="body" let-element>
     <tr class="h-2_5rem white-space-normal overflow-hidden text-overflow-clip">
       <td class="h-2_5rem white-space-normal overflow-hidden text-overflow-clip">{{element.name}}</td>
-      <td class="h-2_5rem white-space-normal overflow-hidden text-overflow-clip">{{element.code}}</td>
-      <td class="h-2_5rem white-space-normal overflow-hidden text-overflow-clip">{{element.url}}
-
-      </td>
+      
       <td style='flex: 0 0 150px'>
         <div class="inline-flex ">
           <button pButton type="button" icon="pi pi-pencil" pTooltip="Editar App" tooltipPosition="top"
             class="p-button-rounded p-button-text p-button-plain icon" (click)="editItem(element)"></button>
-          <button pButton type="button" icon="pi pi-send" pTooltip="Deploy App" tooltipPosition="top"
-            class="p-button-rounded p-button-text p-button-plain icon" (click)="deployItem(element)"></button>
+          
         </div>
       </td>
     </tr>
