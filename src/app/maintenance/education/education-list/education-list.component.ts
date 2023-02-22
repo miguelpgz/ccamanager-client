@@ -9,15 +9,18 @@ import { SnackbarService } from "../../../core/services/snackbar.service";
 // import {ApplicationDeployComponent} from "../application-deploy/application-deploy.component";
 import { EducationService } from '../services/education.service';
 
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {ConfirmationService} from 'primeng/api';
+
 @Component({
   selector: 'app-education-list',
   templateUrl: './education-list.component.html',
   styleUrls: ['./education-list.component.scss'],
-  providers: [DialogService, DynamicDialogRef, DynamicDialogConfig]
+  providers: [DialogService, DynamicDialogRef, DynamicDialogConfig,ConfirmationService]
 })
 export class EducationListComponent implements OnInit {
 
-  listoOfData: Education[];
+  listOfData: Education[];
   isLoading: boolean = false;
   item: Education;
 
@@ -26,6 +29,7 @@ export class EducationListComponent implements OnInit {
     private ref: DynamicDialogRef,
     private dialogService: DialogService,
     private snackbarService: SnackbarService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit(): void {
@@ -36,7 +40,7 @@ export class EducationListComponent implements OnInit {
     this.isLoading = true;
     this.educationService.findAll().subscribe({
        next: (results) => {
-         this.listoOfData = results;
+         this.listOfData = results;
        },
        error: ()=>{},
        complete: () => { this.isLoading = false; }
@@ -54,12 +58,32 @@ export class EducationListComponent implements OnInit {
     this.onClose();
   }
 
+  deleteItem(id: number) {
+    this.confirmationService.confirm({
+        message: '¿Seguro/a que quieres borrar la titulacion?',
+        accept: () => {
+            this.educationService.deleteEducation(id).subscribe(() => {
+                this.educationService.findAll().subscribe((result: any) => {
+                    this.listOfData = result;
+                    this.ngOnInit()
+
+                });
+            });
+        },
+        reject:()=>{
+          this.ngOnInit()
+        }
+    });
+    
+}
+
+
   onClose(): void{
-    // this.ref.onClose.subscribe(
-    //   (results:any) => {
-    //     this.findAll();
-    //   }
-    // )
+    this.ref.onClose.subscribe(
+       (results:any) => {
+         this.findAll();
+       }
+     )
   }
 }
   // // editItem(item: Application){

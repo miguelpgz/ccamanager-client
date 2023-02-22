@@ -27,7 +27,8 @@ import { RefreshTokenResolverService } from './services/refresh-token-resolver.s
   declarations: [
     LayoutComponent,
     HeaderComponent,
-    NavComponent
+    NavComponent,
+    
   ],
   imports: [
     CommonModule,
