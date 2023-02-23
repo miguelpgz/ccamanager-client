@@ -4,6 +4,7 @@ import { Education } from '../models/Education';
 // import { ApplicationNewComponent } from "../application-new/application-new.component";
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 import { SnackbarService } from "../../../core/services/snackbar.service";
+import { EducationEditComponent } from '../education-edit/education-edit.component';
 // import { ApplicationEditComponent } from "../application-edit/application-edit.component";
 // import { RoleClass } from '../../models/RoleClass';
 // import {ApplicationDeployComponent} from "../application-deploy/application-deploy.component";
@@ -59,23 +60,24 @@ export class EducationListComponent implements OnInit {
   }
 
   deleteItem(id: number) {
+    console.log("hello");
     this.confirmationService.confirm({
         message: '¿Seguro/a que quieres borrar la titulacion?',
         accept: () => {
             this.educationService.deleteEducation(id).subscribe(() => {
                 this.educationService.findAll().subscribe((result: any) => {
                     this.listOfData = result;
-                    this.ngOnInit()
+                    // this.ngOnInit()
 
                 });
             });
         },
         reject:()=>{
-          this.ngOnInit()
+          // this.ngOnInit()
         }
+        
     });
-    
-}
+  }
 
 
   onClose(): void{
@@ -85,34 +87,21 @@ export class EducationListComponent implements OnInit {
        }
      )
   }
+
+  editItem(item: Education){
+    this.ref = this.dialogService.open(EducationEditComponent, {
+      header:'Editar ' + item.name,
+      width: '40%',
+      data: {
+        educationData:item
+      },
+      closable: false
+    });
+  
+    this.onClose();
+  }
+  
 }
-  // // editItem(item: Application){
-  //   // this.ref = this.dialogService.open(ApplicationEditComponent, {
-  //   //   header:'Editar ' + item.name,
-  //   //   width: '40%',
-  //   //   data: {
-  //   //     applicationData:item
-  //   //   },
-  //   //   closable: false
-  //   // });
 
-  //   this.onClose();
-  // }
 
-  // deployItem(item: Application){
-    // this.ref = this.dialogService.open(ApplicationDeployComponent, {
-    //   header:'Deploy ' + item.name,
-    //   width: '40%',
-    //   data: {
-    //     applicationData:item
-    //   },
-    //   closable: false
-    // });
 
-    // this.onClose();
-  // }
-
-  // getRoleNameComposed(role?: RoleClass) : String {
-  //   if (role == null) return "";
-  //   return role.code + " - "+role.name;
-  // }
